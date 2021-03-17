@@ -28,6 +28,8 @@ class _RecentTabViewState extends State<RecentTabView> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return FutureBuilder(
       future: librosService.getLibros(),
       builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
@@ -39,14 +41,17 @@ class _RecentTabViewState extends State<RecentTabView> {
           // print(snapshot.data);
           print(libros.items.first.descripcionCorta);
           return Container(
-            child: Text('Hola mundo'),
+            height: size.height * 0.7,
+            child: listaLibros(context,libros.items)
           );
         }
       },
     );
   }
 
-  Widget listaLibros( List<LibrosResp> lista ){
+  Widget listaLibros( BuildContext context, List<LibrosResp> lista ){
+    final size = MediaQuery.of(context).size;
+
     return ListView.builder(
       itemCount: lista.length,
       scrollDirection: Axis.vertical,
@@ -55,7 +60,31 @@ class _RecentTabViewState extends State<RecentTabView> {
       itemBuilder: (context, index) {
         var recent = lista[index];
 
-        return Text('hola mundo');
+        return Card(
+          child: Row(
+            children: [
+              Container(
+                width: size.width * 0.4,
+                height: size.height * 0.4,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(
+                      '${recent.portada}'
+                    )
+                  )
+                ),
+              ),
+              Container(
+                width: size.width * 0.4,
+                child: Text(
+                  "${ recent.descripcionCorta }",
+                  overflow: TextOverflow.ellipsis
+                  
+                ),
+              )
+            ],
+          ),
+        );
       },
     );
   }
