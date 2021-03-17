@@ -30,14 +30,14 @@ class _RecentTabViewState extends State<RecentTabView> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: librosService.getLibros(),
-      builder: (BuildContext context, AsyncSnapshot<List<Map<String,dynamic>>> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
         
         if(!snapshot.hasData){
           return Center(child: CircularProgressIndicator());
         }else{
           LibrosList libros = LibrosList.fromJsonList(snapshot.data);
           // print(snapshot.data);
-          print(libros.items);
+          print(libros.items.first.descripcionCorta);
           return Container(
             child: Text('Hola mundo'),
           );
